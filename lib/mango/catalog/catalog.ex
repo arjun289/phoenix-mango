@@ -1,19 +1,23 @@
 defmodule Mango.Catalog do
   @moduledoc false
   alias Mango.Catalog.Product
+  alias Mango.Repo
 
   def list_products do
-    product1 =
-      %Product{ name: "Apple", price: "100", is_seasonal: true, category: "fruits" }
-    product2 =
-      %Product{ name: "Tomato", price: "20", is_seasonal: false, category: "vegetables" }
-    [product1, product2]
+    Repo.all(Product)
   end
 
   def list_seasonal_products do
     list_products()
     |> Enum.filter(fn(product) ->
       product.is_seasonal == true
+    end)
+  end
+
+  def get_category_products(category) do
+    products = list_products()
+    Enum.filter(products, fn(product) ->
+      product.category == category
     end)
   end
 end

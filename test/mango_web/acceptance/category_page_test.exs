@@ -1,16 +1,15 @@
 defmodule MangoWeb.CategoryPageTest do
-  use ExUnit.Case
+  use Mango.DataCase
   use Hound.Helpers
   import Hound.Helpers.Page
+  import Mango.Factory
 
   hound_session()
 
-  setup do
-    ## Given
-    # Two products apple and tomato categorized
-    # under `fruits` and `vegetable` respectively.
-    :ok
-  end
+  ## Given
+  # Two products apple and tomato categorized
+  # under `fruits` and `vegetable` respectively.
+  setup :products
 
   test "show fruits" do
     # navigate to fruits page
@@ -46,7 +45,7 @@ defmodule MangoWeb.CategoryPageTest do
      product_price = :css |> find_element(".product-price") |> visible_text()
 
      assert product_name == "Tomato"
-     assert product_price == "20"
+     assert product_price == "50"
 
      # The page shouldn't have apple
      refute page_source() =~ "Apple"

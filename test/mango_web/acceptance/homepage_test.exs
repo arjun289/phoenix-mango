@@ -1,9 +1,11 @@
 defmodule Mango.HomePageTest do
-  use ExUnit.Case
+  use Mango.DataCase
   use Hound.Helpers
   import Hound.Helpers.Page
+  import Mango.Factory
 
   hound_session()
+  setup :products
 
   test "presence of seasonal products" do
     # Given #

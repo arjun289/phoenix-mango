@@ -42,7 +42,8 @@ defmodule Mango.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:hound, "~> 1.0"},
-      {:credo, "~> 0.5", only: [:dev, :test]}
+      {:credo, "~> 0.5", only: [:dev, :test]},
+      {:nimble_csv, "~> 0.3"}
     ]
   end
 
