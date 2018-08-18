@@ -33,7 +33,7 @@ defmodule Mango.HomePageTest do
       |> visible_text()
 
     assert product_name == "Apple"
-    assert product_price == "100"
+    assert product_price == "INR 100"
 
     # Also I don't expect to find tomato on that page
     refute page_source() =~ "Tomato"

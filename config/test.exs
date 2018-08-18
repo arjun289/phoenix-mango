@@ -12,6 +12,9 @@ config :logger, level: :warn
 # Configuration for hound
 config :hound, driver: "phantomjs"
 
+# for bcrypt to reduce number of calls
+config :bcrypt_elixir, :log_rounds, 4
+
 # Configure your database
 config :mango, Mango.Repo,
   adapter: Ecto.Adapters.Postgres,

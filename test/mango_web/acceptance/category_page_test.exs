@@ -25,7 +25,7 @@ defmodule MangoWeb.CategoryPageTest do
     product_price = :css |> find_element(".product-price") |> visible_text()
 
     assert product_name == "Apple"
-    assert product_price == "100"
+    assert product_price == "INR 100"
 
     # The page shouldn't have `Tomato`.
     refute page_source() =~ "Tomato"
@@ -45,7 +45,7 @@ defmodule MangoWeb.CategoryPageTest do
      product_price = :css |> find_element(".product-price") |> visible_text()
 
      assert product_name == "Tomato"
-     assert product_price == "50"
+     assert product_price == "INR 50"
 
      # The page shouldn't have apple
      refute page_source() =~ "Apple"
