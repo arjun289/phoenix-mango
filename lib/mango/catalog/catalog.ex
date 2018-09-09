@@ -20,4 +20,6 @@ defmodule Mango.Catalog do
       product.category == category
     end)
   end
+
+  def get_product!(id), do: Product |> Repo.get!(id)
 end

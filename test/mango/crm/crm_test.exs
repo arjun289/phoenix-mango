@@ -28,4 +28,32 @@ defmodule MangoWeb.CRMTest do
     assert Bcrypt.checkpw(valid_attrs["password"],
             customer.password_hash)
   end
+
+  test "get_customer_by_email/1" do
+    valid_attrs = %{
+      "name" => "John",
+      "email" => "john@example.com",
+      "password" => "secret",
+      "residence_area" => "Area 1",
+      "phone" => "1111"
+    }
+    {:ok, customer1} = CRM.create_customer(valid_attrs)
+
+    {:ok, customer2} = CRM.get_customer_by_email("john@example.com")
+    assert customer1.id == customer2.id
+  end
+
+  test "get_customer_by_credentials" do
+    valid_attrs = %{
+      "name" => "John",
+      "email" => "john@example.com",
+      "password" => "secret",
+      "residence_area" => "Area 1",
+      "phone" => "1111"
+    }
+    {:ok, customer1} = CRM.create_customer(valid_attrs)
+
+    {:ok, customer2} = CRM.get_customer_by_credentials(valid_attrs)
+    assert customer1.id == customer2.id
+  end
 end
