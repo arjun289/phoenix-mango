@@ -12,7 +12,7 @@ defmodule MangoWeb.CartController do
         conn
         |> put_flash(:info, message)
         |> redirect(to: page_path(conn, :index))
-      {:error, _ } ->
+      {:error, _} ->
         conn
         |> put_flash(:error, "Error adding product to cart")
         |> redirect(to: page_path(conn, :index))
@@ -21,7 +21,22 @@ defmodule MangoWeb.CartController do
 
   def show(conn, _params) do
     cart = conn.assigns.cart
-    render(conn, "show.html", cart: cart)
+    cart_changeset = Sales.change_cart(cart)
+    render(conn, "show.html", cart: cart, cart_changeset: cart_changeset)
   end
 
+  def update(conn, %{"order" => cart_params}) do
+    cart = conn.assigns.cart
+
+    case Sales.update_cart(cart, cart_params) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "Cart Updated Successfully")
+        |> redirect(to: cart_path(conn, :show))
+      {:error, _} ->
+        conn
+        |> put_flash(:error, "Error Updating Cart!")
+        |> redirect(to: cart_path(conn, :show))
+    end
+  end
 end

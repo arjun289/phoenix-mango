@@ -28,4 +28,5 @@ defmodule Mango.Sales.Order do
   end
 
   def set_order_total(changeset), do: changeset
+
 end

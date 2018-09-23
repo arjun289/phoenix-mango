@@ -50,6 +50,10 @@ defmodule Mango.Sales do
     update_cart(cart, attrs)
   end
 
+  def change_cart(%Order{} = order) do
+    Order.changeset(order, %{})
+  end
+
   def update_cart(%Order{} = cart, attrs) do
     cart
     |> Order.changeset(attrs)
@@ -57,15 +61,26 @@ defmodule Mango.Sales do
   end
 
   defp update_if_present(line_items, new_item) do
-    line_items
-    |> Enum.map(fn item ->
+    {parsed_items, check_flag} = line_items
+    |> Enum.reduce({[], false}, fn item, {acc, _} ->
       if item.product_id == new_item.product_id do
-        item
+        item = item
         |> Map.put(:quantity, item.quantity + new_item.quantity)
         |> Map.from_struct()
+        acc = [item | acc]
+        {acc, true}
       else
-        Map.from_struct(item)
+        item = Map.from_struct(item)
+        acc = [item | acc]
+        {acc, false}
       end
     end)
+
+    if check_flag == false do
+      [new_item | parsed_items]
+    else
+      parsed_items
+    end
+
   end
 end

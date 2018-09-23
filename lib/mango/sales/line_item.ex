@@ -17,16 +17,20 @@ defmodule Mango.Sales.LineItem do
     field(:quantity, :integer)
     field(:unit_price, :decimal)
     field(:total, :decimal)
+    field(:delete, :boolean, virutal: true)
   end
 
-  @cast_params ~w(product_id product_name pack_size quantity unit_price total)a
+  @cast_params ~w(product_id product_name pack_size quantity unit_price total
+    delete)a
+  @required_params ~w(product_id product_name pack_size quantity unit_price)a
 
   def changeset(%__MODULE__{} = line_item, attrs) do
     line_item
     |> cast(attrs, @cast_params)
+    |> set_delete()
     |> set_product_details()
     |> set_total()
-    |> validate_required(@cast_params)
+    |> validate_required(@required_params)
   end
 
   defp set_product_details(%Ecto.Changeset{valid?: true} = changeset) do
@@ -55,5 +59,13 @@ defmodule Mango.Sales.LineItem do
     put_change(changeset, :total, Decimal.mult(unit_price, quantity))
   end
   defp set_total(changeset), do: changeset
+
+  defp set_delete(%Ecto.Changeset{} = changeset) do
+    if get_change(changeset, :delete) do
+      %{changeset | action: :delete}
+    else
+      changeset
+    end
+  end
 
 end

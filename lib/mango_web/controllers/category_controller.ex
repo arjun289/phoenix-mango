@@ -4,6 +4,6 @@ defmodule MangoWeb.CategoryController do
 
   def show(conn, %{"name" => category}) do
     products = Catalog.get_category_products(category)
-    render(conn, "show.html", products: products, name: category)
+    render(conn, "show.html", products: products, name: category, conn: conn)
   end
 end

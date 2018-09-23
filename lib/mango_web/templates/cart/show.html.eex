@@ -2,6 +2,7 @@
 <%= if Enum.empty?(@cart.line_items) do %>
   <p>Your Cart is Empty</p>
 <% else %>
+  <%= form_for @cart_changeset, "/cart", fn f -> %>
   <table class="table">
     <thead>
       <tr>
@@ -13,13 +14,18 @@
       </tr>
     </thead>
     <tbody>
-      <%= for item <- @cart.line_items do %>
+      <%= inputs_for f, :line_items, fn lf -> %>
         <tr>
-          <td><%=  item.product_name %></td>
-          <td><%=  item.pack_size %></td>
-          <td><%=  item.quantity %> </td>
-          <td>INR <%=  item.unit_price %></td>
-          <td>INR <%=  item.total %> </td>
+          <td><%=  lf.data.product_name %></td>
+          <td><%=  lf.data.pack_size %></td>
+          <td>
+            <%= hidden_input lf, :product_id %>
+            <%= number_input lf, :quantity %>
+            <%= error_tag lf, :quantity %>
+          </td>
+          <td>INR <%=  lf.data.unit_price %></td>
+          <td>INR <%=  lf.data.total %> </td>
+          <td><%= checkbox lf, :delete %></td>
         </tr>
       <% end %>
         <tr>
@@ -28,4 +34,8 @@
         </tr>
     </tbody>
   </table>
+    <div class="form-group">
+      <%= submit "Update Cart", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 <% end %>
