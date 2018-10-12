@@ -17,7 +17,7 @@ defmodule Mango.Sales.LineItem do
     field(:quantity, :integer)
     field(:unit_price, :decimal)
     field(:total, :decimal)
-    field(:delete, :boolean, virutal: true)
+    field(:delete, :boolean, virtual: true)
   end
 
   @cast_params ~w(product_id product_name pack_size quantity unit_price total
@@ -61,7 +61,7 @@ defmodule Mango.Sales.LineItem do
   defp set_total(changeset), do: changeset
 
   defp set_delete(%Ecto.Changeset{} = changeset) do
-    if get_change(changeset, :delete) do
+    if get_change(changeset, :delete) == true do
       %{changeset | action: :delete}
     else
       changeset

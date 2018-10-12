@@ -39,7 +39,7 @@ defmodule MangoWeb.CRMTest do
     }
     {:ok, customer1} = CRM.create_customer(valid_attrs)
 
-    {:ok, customer2} = CRM.get_customer_by_email("john@example.com")
+    customer2 = CRM.get_customer_by_email("john@example.com")
     assert customer1.id == customer2.id
   end
 
@@ -53,7 +53,7 @@ defmodule MangoWeb.CRMTest do
     }
     {:ok, customer1} = CRM.create_customer(valid_attrs)
 
-    {:ok, customer2} = CRM.get_customer_by_credentials(valid_attrs)
+    customer2 = CRM.get_customer_by_credentials(valid_attrs)
     assert customer1.id == customer2.id
   end
 end

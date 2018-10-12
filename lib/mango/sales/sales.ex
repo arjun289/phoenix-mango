@@ -61,26 +61,26 @@ defmodule Mango.Sales do
   end
 
   defp update_if_present(line_items, new_item) do
-    {parsed_items, check_flag} = line_items
-    |> Enum.reduce({[], false}, fn item, {acc, _} ->
-      if item.product_id == new_item.product_id do
-        item = item
-        |> Map.put(:quantity, item.quantity + new_item.quantity)
-        |> Map.from_struct()
-        acc = [item | acc]
-        {acc, true}
-      else
-        item = Map.from_struct(item)
-        acc = [item | acc]
-        {acc, false}
-      end
-    end)
+    {parsed_items, check_flag} =
+      line_items
+      |> Enum.reduce({[], false}, fn item, {acc, check_flag} ->
+        if item.product_id == new_item.product_id do
+          item = item
+          |> Map.put(:quantity, item.quantity + new_item.quantity)
+          |> Map.from_struct()
+          acc = [item | acc]
+          {acc, true}
+        else
+          item = Map.from_struct(item)
+          acc = [item | acc]
+          {acc, check_flag}
+        end
+      end)
 
     if check_flag == false do
       [new_item | parsed_items]
     else
       parsed_items
     end
-
   end
 end
