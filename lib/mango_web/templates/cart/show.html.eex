@@ -2,6 +2,8 @@
 <%= if Enum.empty?(@cart.line_items) do %>
   <p>Your Cart is Empty</p>
 <% else %>
+  <%= link "Checkout", to: checkout_path(@conn, :edit), 
+    class: "btn btn-primary pull-right" %>
   <%= form_for @cart_changeset, "/cart", fn f -> %>
   <table class="table">
     <thead>
@@ -11,6 +13,7 @@
         <th>Quantity</th>
         <th>Unit Price</th>
         <th>Subtotal</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>

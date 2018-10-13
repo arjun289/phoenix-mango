@@ -60,6 +60,21 @@ defmodule Mango.Sales do
     |> Repo.update()
   end
 
+  @doc """
+  Confirms the order.
+
+  Marks the order state as "Confirmed".
+  """
+  @spec confirm_order(Order.t(), map) :: {:ok, Order.t()} |
+    {:error, Ecto.Changeset.t()}
+  def confirm_order(%Order{} = order, params) do
+    attrs = Map.put(params, "status", "Confirmed")
+
+    order
+    |> Order.checkout_changeset(attrs)
+    |> Repo.update()
+  end
+
   defp update_if_present(line_items, new_item) do
     {parsed_items, check_flag} =
       line_items
